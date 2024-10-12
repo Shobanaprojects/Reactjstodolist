@@ -1,0 +1,44 @@
+* {
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background: linear-gradient(90deg, #153677, #4e085f);
+}
+.task-container {
+    background: #ffffff;
+    border-radius: 8px;;
+}
+
+.task-container .input-group input {
+    font-size: 16px;
+    box-sizing: border-box;
+    border: none;
+    background: #edeef0;
+    border-radius: 50px;
+}
+
+.addbutton {
+    padding: 0px 30px;
+    background-color: #ff5945;
+    color: #ffffff;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+.todolist{
+    margin: 2%  0% 0% 2%;
+}
+.errormsgsize {
+    font-size: 12px;
+    padding: 0px 10px;
+}
+
+.form-check-input:checked + .todolist-des {
+    color: #ff5945;
+    text-decoration: line-through;
+    
+}
