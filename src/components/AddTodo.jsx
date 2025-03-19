@@ -23,26 +23,30 @@ const AddTodo = () => {
 
     const addTask = () => {
         if (task !== '') {
-            if (isEditing) {
-                const updatedTodolist = [...todolist];
-                updatedTodolist[editIndex] = task;
-                setTodolist(updatedTodolist);
-                setIsEditing(false);
-                setEditIndex(null);
+            if (/^[a-zA-Z\s.,!?;:'"@#$%^&*()_+=\-[\]{}|\\<>/~`]+$/.test(task)) {
+                if (isEditing) {
+                    const updatedTodolist = [...todolist];
+                    updatedTodolist[editIndex] = task;
+                    setTodolist(updatedTodolist);
+                    setIsEditing(false);
+                    setEditIndex(null);
+                } else {
+
+                    setTodolist([...todolist, task]);
+
+                }
+                setTask('');
+                setErrorMessage('');
             } else {
-               
-                setTodolist([...todolist, task]);
-                
+                setErrorMessage('Numbers are not allowed!');
             }
-            setTask('');
-            setErrorMessage('');
         } else {
             setErrorMessage('Please enter your task!!!');
         }
     }
 
     const handleEditTask = (index) => {
-        setTask(todolist[index]); 
+        setTask(todolist[index]);
         setIsEditing(true);
         setEditIndex(index);
     };
@@ -52,22 +56,19 @@ const AddTodo = () => {
         setTodolist(deleteTodolist);
     };
 
-
-
     return (
         <Fragment>
-            <div className="row d-flex justify-content-center align-items-center" style={{ minHeight: '300px', overflowY: 'auto' }}>
-                <div className="col-md-6 col-8 task-container p-4">
-                    <div className="mb-3">
+            <div className="d-flex justify-content-center mt-5">
+                <div className="bg-white todolister">
+                    <div className="">
                         <h2 className="text-start">To Do List <FontAwesomeIcon icon={faListCheck} /></h2>
                     </div>
-                    <div className="input-group mb-2">
-                        <input type="text" className="form-control form-control-lg" placeholder="Enter your task" value={task} onChange={(e) => setTask(e.target.value)}/>
+                    <div className="input-group input-focus-group">
+                        <input type="text" className="form-control border-end-0" placeholder="Enter your task" value={task} onChange={(e) => setTask(e.target.value)} />
                         <CustomButton className="addbutton" title={isEditing ? 'Update' : 'Add'} btnOnclick={addTask} />
-
                     </div>
                     {errorMessage && <div className="errormsgsize text-danger">{errorMessage}</div>}
-                    <TodoList todolist={todolist} onDeletetask={handleRemovetodolist} onEdittask={handleEditTask}/>
+                    <TodoList todolist={todolist} onDeletetask={handleRemovetodolist} onEdittask={handleEditTask} />
                 </div>
             </div>
         </Fragment>

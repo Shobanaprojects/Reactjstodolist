@@ -1,35 +1,46 @@
 /*Small device*/
-@media only screen and (min-width: 320px) and (max-width: 767px){ 
-    h2{
+@media only screen and (min-width: 320px) and (max-width: 767px) {
+    h2 {
         font-size: 22px !important;
     }
-    .task-container .input-group input, .todolist  {
-        font-size: 12px;
+
+    .todolister .input-group input {
+        font-size: 14px;
     }
-    .addbutton{
-        padding: 0 10px;
+
+    .todolister {
+        width: 90%;
+        padding: 7%;
+    }
+
+    .addbutton {
         font-size: 13px;
+        width: 80px;
     }
-    .errormsgsize, .todolist .btn-sm{
+
+    .errormsgsize,
+    .btn-sm {
         font-size: 10px;
     }
-    .todolist{
-        margin: 2% 5% 0% 5%;
-    }
-   
 
+    .form-check label {
+        font-size: 11px;
+    }
+
+    .form-control:focus {
+        height: 33px;
+    }
 }
+
 /*Medium device*/
-@media only screen and (min-width: 768px) and (max-width: 991px){ 
-    .todolist{
-        margin: 2% 9% 0% 3%;
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .todolister {
+        width: 90%;
+        padding: 7%;
     }
 }
 
 
 
 /*large device*/
-@media only screen and (min-width: 992px) and (min-width: 1200px){ 
-
-
-}
+@media only screen and (min-width: 992px) and (min-width: 1200px) {}
