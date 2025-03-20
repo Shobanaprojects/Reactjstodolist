@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import CustomButton from "./CustomButton";
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-const TodoList = ({ todolist, onDeletetask, onEdittask }) => {
+const TodoList = ({ todolist, onDeletetask, onEdittask, onToggleCheck }) => {
 
 
 
@@ -13,8 +13,8 @@ const TodoList = ({ todolist, onDeletetask, onEdittask }) => {
                     <div key={index} className="row w-100 mt-3">
                         <div className="col-8 col-md-10">
                             <div className="form-check">
-                                <input class="form-check-input" type="checkbox" />
-                                <label className="text-break todolist-des">{data}</label>
+                                <input class="form-check-input" type="checkbox" checked={data.checked} onChange={() => onToggleCheck(index)}/>
+                                <label className="text-break todolist-des">{data.text}</label>
                             </div>
                         </div>
                         <div className="col-2 col-md-1">

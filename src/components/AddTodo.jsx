@@ -13,47 +13,66 @@ const AddTodo = () => {
     const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
-        localStorage.setItem('todolist', JSON.stringify(todolist));
-    }, [todolist]);
-
-    useEffect(() => {
         const storedTodos = JSON.parse(localStorage.getItem('todolist'));
-        setTodolist(storedTodos);
+        if (storedTodos) {
+            setTodolist(storedTodos);
+        }
     }, []);
 
+    useEffect(() => {
+
+        localStorage.setItem('todolist', JSON.stringify(todolist));
+
+    }, [todolist]);
+
+
+
     const addTask = () => {
-        if (task !== '') {
-            if (/^[a-zA-Z\s.,!?;:'"@#$%^&*()_+=\-[\]{}|\\<>/~`]+$/.test(task)) {
-                if (isEditing) {
-                    const updatedTodolist = [...todolist];
-                    updatedTodolist[editIndex] = task;
-                    setTodolist(updatedTodolist);
-                    setIsEditing(false);
-                    setEditIndex(null);
-                } else {
-
-                    setTodolist([...todolist, task]);
-
-                }
-                setTask('');
-                setErrorMessage('');
-            } else {
-                setErrorMessage('Numbers are not allowed!');
-            }
-        } else {
-            setErrorMessage('Please enter your task!!!');
+        if (task.trim() === "") {
+            setErrorMessage("Please enter your task!!!");
+            return;
         }
+
+        if (!/^[a-zA-Z\s.,!?;:'"@#$%^&*()_+=\-[\]{}|\\<>/~`]+$/.test(task)) {
+            setErrorMessage("Numbers are not allowed!");
+            return;
+        }
+
+        if (isEditing) {
+            const updatedTodolist = [...todolist];
+            updatedTodolist[editIndex].text = task;
+            setTodolist(updatedTodolist);
+            setIsEditing(false);
+            setEditIndex(null);
+        } else {
+            const newTodolist = [...todolist, { text: task, checked: false }];
+            setTodolist(newTodolist);
+        }
+
+        setTask("");
+        setErrorMessage("");
     }
 
     const handleEditTask = (index) => {
-        setTask(todolist[index]);
+        setTask(todolist[index].text);
         setIsEditing(true);
         setEditIndex(index);
+    };
+
+    const handleToggleCheck = (index) => {
+        const updatedTodolist = todolist.map((item, i) =>
+            i === index ? { ...item, checked: !item.checked } : item
+        );
+
+        setTodolist(updatedTodolist);
+        localStorage.setItem("todolist", JSON.stringify(updatedTodolist)); // Ensure persistence
     };
 
     const handleRemovetodolist = (index) => {
         const deleteTodolist = todolist.filter((_, i) => i !== index);
         setTodolist(deleteTodolist);
+        localStorage.setItem("todolist", JSON.stringify(deleteTodolist));
+
     };
 
     return (
@@ -64,11 +83,13 @@ const AddTodo = () => {
                         <h2 className="text-start">To Do List <FontAwesomeIcon icon={faListCheck} /></h2>
                     </div>
                     <div className="input-group input-focus-group">
-                        <input type="text" className="form-control border-end-0" placeholder="Enter your task" value={task} onChange={(e) => setTask(e.target.value)} />
+                        <input type="text" className="form-control border-end-0" placeholder="Enter your task" value={task} onChange={(e) => setTask(e.target.value)} onKeyDown={(e) => {
+                            if (e.key === "Enter") addTask();
+                        }} />
                         <CustomButton className="addbutton" title={isEditing ? 'Update' : 'Add'} btnOnclick={addTask} />
                     </div>
                     {errorMessage && <div className="errormsgsize text-danger">{errorMessage}</div>}
-                    <TodoList todolist={todolist} onDeletetask={handleRemovetodolist} onEdittask={handleEditTask} />
+                    <TodoList todolist={todolist} onDeletetask={handleRemovetodolist} onEdittask={handleEditTask} onToggleCheck={handleToggleCheck} />
                 </div>
             </div>
         </Fragment>
